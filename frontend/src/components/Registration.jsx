@@ -17,9 +17,9 @@ const Registration = () => {
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required");
     } else if (IsEmpty(fullName)) {
-      ErrorToast("Full Name Required");
+      ErrorToast("Full Name is Required");
     } else if (IsEmpty(password)) {
-      ErrorToast("Password Required");
+      ErrorToast("Password is Required");
     } else {
       const res = await REGISTRATION_API(email, fullName, password);
       if (res) {
@@ -34,24 +34,25 @@ const Registration = () => {
         <div className="col-md-7 col-lg-6 center-screen">
           <div className="card animated fadeIn w-100 p-3">
             <div className="card-body">
-              <h4 className="text-center">Sign Up</h4>
+              <h2 className="text-center">Registration</h2>
+              <br />
               <input
                 ref={(input) => (emailRef = input)}
-                placeholder="User Email"
+                placeholder="Your Valid Email"
                 className="form-control animated fadeInUp"
                 type="email"
               />
               <br />
               <input
                 ref={(input) => (fullNameRef = input)}
-                placeholder="First Name"
+                placeholder="Your Full Name"
                 className="form-control animated fadeInUp"
                 type="text"
               />
               <br />
               <input
                 ref={(input) => (passwordRef = input)}
-                placeholder="User Password"
+                placeholder="Your Password"
                 className="form-control animated fadeInUp"
                 type="password"
               />

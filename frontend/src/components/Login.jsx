@@ -1,10 +1,9 @@
 import { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LOGIN_API } from "../api/API_REQUEST";
 import { ErrorToast, IsEmail, IsEmpty } from "../helpers/FormHelper";
 
 const Login = () => {
-  const navigate = useNavigate();
   let emailRef,
     passwordRef = useRef();
 
@@ -15,11 +14,11 @@ const Login = () => {
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required");
     } else if (IsEmpty(password)) {
-      ErrorToast("Password Required");
+      ErrorToast("Valid Password Required");
     } else {
       const res = await LOGIN_API(email, password);
       if (res) {
-        navigate("/");
+        window.location.href = "/";
       }
     }
   };
@@ -30,18 +29,18 @@ const Login = () => {
         <div className="col-md-7 col-lg-6 center-screen">
           <div className="card w-90 p-4">
             <div className="card-body">
-              <h4>SIGN IN</h4>
+              <h2 className="text-center">Login</h2>
               <br />
               <input
                 ref={(input) => (emailRef = input)}
-                placeholder="User Email"
+                placeholder="Enter Your Valid Email Address"
                 className="form-control animated fadeInUp"
                 type="email"
               />
               <br />
               <input
                 ref={(input) => (passwordRef = input)}
-                placeholder="User Password"
+                placeholder="Enter Your Valid Password"
                 className="form-control animated fadeInUp"
                 type="password"
               />
@@ -53,7 +52,7 @@ const Login = () => {
               <div className="float-end mt-3">
                 <span>
                   <Link className="text-center ms-3 h6 animated fadeInUp" to="/registration">
-                    Sign Up{" "}
+                    Registration{" "}
                   </Link>
                   <span className="ms-1">|</span>
                   <Link className="text-center ms-3 h6 animated fadeInUp" to="/forget-password">

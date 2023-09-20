@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
     // response
     res.status(200).json({
       status: true,
-      message: "User Registration Successful",
+      message: "User Login Successful",
       token: token,
       data: {
         _id: user._id,

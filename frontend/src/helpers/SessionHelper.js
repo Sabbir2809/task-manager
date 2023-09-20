@@ -11,6 +11,12 @@ class SessionHelper {
   getEmail() {
     return localStorage.getItem("email");
   }
+  setUserDetails(userDetails) {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  }
+  getUserDetails() {
+    return JSON.parse(localStorage.getItem("userDetails"));
+  }
   setGuestCart(productId) {
     localStorage.setItem("guestCartItem", productId);
   }
@@ -32,6 +38,8 @@ export const {
   getToken,
   setEmail,
   getEmail,
+  setUserDetails,
+  getUserDetails,
   setGuestCart,
   getGuestCart,
   convertPriceStringToNumber,

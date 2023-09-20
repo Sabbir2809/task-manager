@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-const EmailRegExr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const EmailRegExr = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 class FormHelper {
   IsEmpty(value) {
