@@ -1,6 +1,29 @@
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LOGIN_API } from "../api/API_REQUEST";
+import { ErrorToast, IsEmail, IsEmpty } from "../helpers/FormHelper";
 
 const Login = () => {
+  const navigate = useNavigate();
+  let emailRef,
+    passwordRef = useRef();
+
+  const handleLogin = async () => {
+    let email = emailRef.value;
+    let password = passwordRef.value;
+
+    if (IsEmail(email)) {
+      ErrorToast("Valid Email Address Required");
+    } else if (IsEmpty(password)) {
+      ErrorToast("Password Required");
+    } else {
+      const res = await LOGIN_API(email, password);
+      if (res) {
+        navigate("/");
+      }
+    }
+  };
+
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -9,11 +32,23 @@ const Login = () => {
             <div className="card-body">
               <h4>SIGN IN</h4>
               <br />
-              <input placeholder="User Email" className="form-control animated fadeInUp" type="email" />
+              <input
+                ref={(input) => (emailRef = input)}
+                placeholder="User Email"
+                className="form-control animated fadeInUp"
+                type="email"
+              />
               <br />
-              <input placeholder="User Password" className="form-control animated fadeInUp" type="password" />
+              <input
+                ref={(input) => (passwordRef = input)}
+                placeholder="User Password"
+                className="form-control animated fadeInUp"
+                type="password"
+              />
               <br />
-              <button className="btn w-100 animated fadeInUp float-end btn-primary">Login</button>
+              <button onClick={handleLogin} className="btn w-100 animated fadeInUp float-end btn-primary">
+                Login
+              </button>
               <hr />
               <div className="float-end mt-3">
                 <span>
