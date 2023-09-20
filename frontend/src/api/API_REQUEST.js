@@ -76,7 +76,7 @@ export const CREATE_NEW_TASK_API = async (title, description) => {
   }
 };
 
-// CREATE A NEW TASK API
+// Task List By Status
 export const TASK_LIST_BY_STATUS = async (taskStatus) => {
   try {
     const URL = `${BASE_URL}/list-task-by-status/${taskStatus}`;
