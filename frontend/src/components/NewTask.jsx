@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { TASK_LIST_BY_STATUS } from "../api/API_REQUEST";
 
 const NewTask = () => {
+  useEffect(() => {
+    TASK_LIST_BY_STATUS("New");
+  }, []);
+
   return (
     <Container fluid={true} className="content-body">
       <div className="row p-0 m-0">

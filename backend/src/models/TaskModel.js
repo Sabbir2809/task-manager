@@ -5,7 +5,7 @@ const taskSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     description: { type: String },
-    status: { type: String },
+    status: { type: String, default: "New" },
     email: { type: String },
   },
   { timestamps: true, versionKey: false }
