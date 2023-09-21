@@ -1,12 +1,31 @@
 import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { TASK_LIST_BY_STATUS } from "../api/API_REQUEST";
+import { useSelector } from "react-redux";
+import { TASK_LIST_BY_STATUS_API } from "../api/API_REQUEST";
+import { deleteTask } from "../helpers/DeleteAlert";
+import { updateTaskStatus } from "../helpers/UpdateAlert";
 
 const CanceledTask = () => {
   useEffect(() => {
-    TASK_LIST_BY_STATUS("Canceled");
+    TASK_LIST_BY_STATUS_API("Canceled");
   }, []);
+
+  const canceledList = useSelector((state) => state.task.canceledTask);
+
+  const deleteItem = async (_id) => {
+    const result = await deleteTask(_id);
+    if (result === true) {
+      TASK_LIST_BY_STATUS_API("Canceled");
+    }
+  };
+
+  const updateItem = async (_id, status) => {
+    const result = await updateTaskStatus(_id, status);
+    if (result === true) {
+      TASK_LIST_BY_STATUS_API("Canceled");
+    }
+  };
 
   return (
     <Container fluid={true} className="content-body">
@@ -26,24 +45,29 @@ const CanceledTask = () => {
         </div>
       </div>
       <div className="row p-0 m-0">
-        <div className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
-          <div className="card h-100">
-            <div className="card-body">
-              <h6 className="animated fadeInUp">Title</h6>
-              <p className="animated fadeInUp">Description</p>
-              <p className="m-0 animated fadeInUp p-0">
-                <AiOutlineCalendar /> 20/09/2023
-                <a className="icon-nav text-primary mx-1">
-                  <AiOutlineEdit />
-                </a>
-                <a className="icon-nav text-danger mx-1">
-                  <AiOutlineDelete />
-                </a>
-                <a className="badge float-end bg-danger">Status</a>
-              </p>
+        {canceledList &&
+          canceledList.map((item) => (
+            <div key={item._id} className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
+              <div className="card h-100">
+                <div className="card-body">
+                  <h6 className="animated fadeInUp">{item.title}</h6>
+                  <p className="animated fadeInUp">{item.description}</p>
+                  <p className="m-0 animated fadeInUp p-0">
+                    <AiOutlineCalendar /> {item.createdAt}
+                    <a
+                      onClick={() => updateItem(item._id, item.status)}
+                      className="icon-nav text-primary mx-1">
+                      <AiOutlineEdit />
+                    </a>
+                    <a onClick={() => deleteItem(item._id)} className="icon-nav text-danger mx-1">
+                      <AiOutlineDelete />
+                    </a>
+                    <a className="badge float-end bg-danger">{item.status}</a>
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          ))}
       </div>
     </Container>
   );

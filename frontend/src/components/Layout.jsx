@@ -37,7 +37,6 @@ const Layout = (props) => {
 
   const handleLogout = () => {
     removeSession();
-    window.location.href = "/";
   };
 
   return (

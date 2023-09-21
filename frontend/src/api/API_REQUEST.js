@@ -4,6 +4,7 @@ import { ErrorToast, SuccessToast } from "../helpers/FormHelper";
 import { getEmail, getToken, setEmail, setToken } from "../helpers/SessionHelper";
 import store from "../redux/app/store";
 import { hideLoader, showLoader } from "../redux/features/settingSlice";
+import { setSummary } from "../redux/features/summarySlice";
 import { setCanceledTask, setCompletedTask, setNewTask, setProgressTask } from "../redux/features/taskSlice";
 
 // REGISTRATION API
@@ -77,7 +78,7 @@ export const CREATE_NEW_TASK_API = async (title, description) => {
 };
 
 // Task List By Status
-export const TASK_LIST_BY_STATUS = async (taskStatus) => {
+export const TASK_LIST_BY_STATUS_API = async (taskStatus) => {
   try {
     const URL = `${BASE_URL}/list-task-by-status/${taskStatus}`;
     const Headers = { headers: { token: getToken() } };
@@ -88,16 +89,79 @@ export const TASK_LIST_BY_STATUS = async (taskStatus) => {
     store.dispatch(hideLoader());
     if (data.status) {
       if (taskStatus === "New") {
-        store.dispatch(setNewTask(data.data["data"]));
+        store.dispatch(setNewTask(data.data));
       } else if (taskStatus === "Progress") {
-        store.dispatch(setProgressTask(data.data["data"]));
+        store.dispatch(setProgressTask(data.data));
       } else if (taskStatus === "Canceled") {
-        store.dispatch(setCanceledTask(data.data["data"]));
+        store.dispatch(setCanceledTask(data.data));
       } else if (taskStatus === "Completed") {
-        store.dispatch(setCompletedTask(data.data["data"]));
+        store.dispatch(setCompletedTask(data.data));
       }
-      // SuccessToast("Create New Task");
-      // return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// TaskStatusCount
+export const TASK_STATUS_COUNT_API = async () => {
+  try {
+    const URL = `${BASE_URL}/task-status-count`;
+    const Headers = { headers: { token: getToken() } };
+    store.dispatch(showLoader());
+
+    const { data } = await axios.get(URL, Headers);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      store.dispatch(setSummary(data.data));
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Delete Task
+export const DELETE_TASK_API = async (_id) => {
+  try {
+    const URL = `${BASE_URL}/delete-task/${_id}`;
+    const Headers = { headers: { token: getToken() } };
+    store.dispatch(showLoader());
+
+    const { data } = await axios.delete(URL, Headers);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      SuccessToast("Deleted Successful");
+      return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Update Task Status
+export const UPDATE_TASK_STATUS_API = async (_id, status) => {
+  try {
+    const URL = `${BASE_URL}/update-task-status/${_id}/${status}`;
+    const Headers = { headers: { token: getToken() } };
+    store.dispatch(showLoader());
+
+    const { data } = await axios.get(URL, Headers);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      SuccessToast("Update Successful");
+      return true;
     }
   } catch (error) {
     if (error.response.data.success === false) {
