@@ -1,7 +1,7 @@
 const BASE_URL = `https://task-manager-jcwd.onrender.com/api`;
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helpers/FormHelper";
-import { getEmail, getToken, setEmail, setToken } from "../helpers/SessionHelper";
+import { getEmail, getToken, setToken, setUserDetails } from "../helpers/SessionHelper";
 import store from "../redux/app/store";
 import { hideLoader, showLoader } from "../redux/features/settingSlice";
 import { setSummary } from "../redux/features/summarySlice";
@@ -42,7 +42,7 @@ export const LOGIN_API = async (email, password) => {
     if (data.status) {
       // set email, token in localStorage
       setToken(data.token);
-      setEmail(data.data.email);
+      setUserDetails(data.data.data);
       SuccessToast(data.message);
       return true;
     }
