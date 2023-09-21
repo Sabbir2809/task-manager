@@ -42,7 +42,7 @@ export const LOGIN_API = async (email, password) => {
     if (data.status) {
       // set email, token in localStorage
       setToken(data.token);
-      setUserDetails(data.data.data);
+      setUserDetails(data.data);
       SuccessToast(data.message);
       return true;
     }
