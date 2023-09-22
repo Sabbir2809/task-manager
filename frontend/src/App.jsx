@@ -5,10 +5,12 @@ import CanceledPage from "./pages/CanceledPage";
 import CompletedPage from "./pages/CompletedPage";
 import CreatePage from "./pages/CreatePage";
 import DashboardPage from "./pages/DashboardPage";
-import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import LoginPage from "./pages/LoginPage";
 import NewPage from "./pages/NewPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import CreatePasswordPage from "./pages/PasswordRecoverPage/CreatePasswordPage";
+import SendOTPPage from "./pages/PasswordRecoverPage/SendOTPPage";
+import VerifyOTPPage from "./pages/PasswordRecoverPage/VerifyOTPPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProgressPage from "./pages/ProgressPage";
 import RegistrationPage from "./pages/RegistrationPage";
@@ -25,7 +27,6 @@ const App = () => {
           <Route path="/completed-task" element={<CompletedPage />} />
           <Route path="/canceled-task" element={<CanceledPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <FullScreenLoader />
@@ -38,7 +39,11 @@ const App = () => {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />
-          <Route path="/forget-password" element={<ForgetPasswordPage />} />
+
+          <Route path="/send-otp" element={<SendOTPPage />} />
+          <Route path="/verify-otp" element={<VerifyOTPPage />} />
+          <Route path="/create-password" element={<CreatePasswordPage />} />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <FullScreenLoader />

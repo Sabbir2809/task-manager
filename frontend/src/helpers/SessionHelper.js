@@ -11,6 +11,12 @@ class SessionHelper {
   getEmail() {
     return localStorage.getItem("email");
   }
+  setOTP(OTP) {
+    localStorage.setItem("otp", OTP);
+  }
+  getOTP() {
+    return localStorage.getItem("otp");
+  }
   setUserDetails(userDetails) {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
   }
@@ -39,6 +45,8 @@ export const {
   getToken,
   setEmail,
   getEmail,
+  setOTP,
+  getOTP,
   setUserDetails,
   getUserDetails,
   setGuestCart,

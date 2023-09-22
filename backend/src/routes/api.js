@@ -1,7 +1,15 @@
 // Dependencies
 const express = require("express");
 const router = express.Router();
-const { registration, login, profileUpdate, profileDetails } = require("../controllers/UsersController");
+const {
+  registration,
+  login,
+  profileUpdate,
+  profileDetails,
+  verifyEmail,
+  verifyOTP,
+  resetPassword,
+} = require("../controllers/UsersController");
 const AuthVerifyMiddleware = require("../middleware/AuthVerifyMiddleware");
 const {
   createTask,
@@ -18,6 +26,11 @@ router.post("/user-registration", registration);
 router.post("/user-login", login);
 router.put("/user-profile-update", AuthVerifyMiddleware, profileUpdate);
 router.get("/get-user-profile", AuthVerifyMiddleware, profileDetails);
+
+// :::::: password recover ::::::
+router.get("/verify-email/:email", verifyEmail);
+router.get("/verify-otp/:email/:otp", verifyOTP);
+router.post("/reset-password", resetPassword);
 
 // :::::: task ::::::
 router.post("/create-task", AuthVerifyMiddleware, createTask);

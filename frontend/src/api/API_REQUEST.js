@@ -1,7 +1,7 @@
 const BASE_URL = `https://task-manager-jcwd.onrender.com/api`;
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helpers/FormHelper";
-import { getEmail, getToken, setToken, setUserDetails } from "../helpers/SessionHelper";
+import { getEmail, getToken, setEmail, setOTP, setToken, setUserDetails } from "../helpers/SessionHelper";
 import store from "../redux/app/store";
 import { setProfileDetails } from "../redux/features/profileSlice";
 import { hideLoader, showLoader } from "../redux/features/settingSlice";
@@ -210,6 +210,74 @@ export const PROFILE_UPDATE_API = async (photo, email, fullName) => {
     if (data.status) {
       SuccessToast("User Profile Updated Successful");
       setUserDetails(userDetails);
+      return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Verify Recover Email (Step-1)
+export const VERIFY_RECOVER_EMAIL_API = async (email) => {
+  try {
+    store.dispatch(showLoader());
+    const URL = `${BASE_URL}/verify-email/${email}`;
+
+    const { data } = await axios.get(URL);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      setEmail(email);
+      SuccessToast(data.message);
+      return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Verify Recover OTP (Step-2)
+export const VERIFY_RECOVER_OTP_API = async (email, OTP) => {
+  try {
+    store.dispatch(showLoader());
+
+    const URL = `${BASE_URL}/verify-otp/${email}/${OTP}`;
+
+    const { data } = await axios.get(URL);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      setOTP(OTP);
+      SuccessToast(data.message);
+      return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Recover Reset Password (Step-3)
+export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
+  try {
+    store.dispatch(showLoader());
+
+    const URL = `${BASE_URL}/recover-reset-password`;
+    const postBody = { email, otp: OTP, password };
+
+    const { data } = await axios.post(URL, postBody);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      SuccessToast(data.message);
       return true;
     }
   } catch (error) {
