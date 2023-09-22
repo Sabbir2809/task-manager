@@ -27,13 +27,14 @@ const VerifyOTP = () => {
 
   const handleSubmitOTP = () => {
     const email = getEmail();
-    if (OTP.length === 0) {
+    console.log(OTP);
+    if (OTP.length === 6) {
       const result = VERIFY_RECOVER_OTP_API(email, OTP);
       if (result) {
         navigate("/create-password");
       }
     } else {
-      ErrorToast("6 Digit verification code has been sent to your email address");
+      ErrorToast("Invalid OTP");
     }
   };
   return (

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { RECOVER_RESET_PASSWORD_API } from "../../api/API_REQUEST";
-import { ErrorToast, IsEmail } from "../../helpers/FormHelper";
+import { ErrorToast, IsEmpty } from "../../helpers/FormHelper";
 import { getEmail, getOTP } from "../../helpers/SessionHelper";
 
 const CreatePassword = () => {
@@ -13,11 +13,11 @@ const CreatePassword = () => {
     let password = passwordRef.value;
     let confirmPassword = confirmPasswordRef.value;
 
-    if (IsEmail(password)) {
+    if (IsEmpty(password)) {
       ErrorToast("New Password Required");
-    } else if (IsEmail(confirmPassword)) {
+    } else if (IsEmpty(confirmPassword)) {
       ErrorToast("Confirm Password Required");
-    } else if (password !== confirmPassword) {
+    } else if (IsEmpty(password !== confirmPassword)) {
       ErrorToast("New Password and Confirm Password Not Match");
     } else {
       const email = getEmail();

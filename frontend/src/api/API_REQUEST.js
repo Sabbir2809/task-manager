@@ -270,7 +270,7 @@ export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
   try {
     store.dispatch(showLoader());
 
-    const URL = `${BASE_URL}/recover-reset-password`;
+    const URL = `${BASE_URL}/reset-password`;
     const postBody = { email, otp: OTP, password };
 
     const { data } = await axios.post(URL, postBody);
