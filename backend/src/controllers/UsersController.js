@@ -94,3 +94,30 @@ exports.profileUpdate = async (req, res) => {
     res.status(500).json({ status: false, error: error.message });
   }
 };
+
+// User Profile Get
+exports.profileDetails = async (req, res) => {
+  try {
+    const email = req.headers.email;
+
+    const data = await UserModel.aggregate([
+      { $match: { email } },
+      {
+        $project: {
+          _id: 1,
+          email: 1,
+          fullName: 1,
+          photo: 1,
+          password: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      status: true,
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, error: error.message });
+  }
+};
