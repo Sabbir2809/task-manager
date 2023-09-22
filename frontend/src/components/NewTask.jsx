@@ -24,6 +24,8 @@ const NewTask = () => {
     const result = await updateTaskStatus(_id, status);
     if (result === true) {
       TASK_LIST_BY_STATUS_API("New");
+    } else {
+      alert("Not Updated");
     }
   };
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helpers/FormHelper";
 import { getEmail, getToken, setToken, setUserDetails } from "../helpers/SessionHelper";
 import store from "../redux/app/store";
+import { setProfileDetails } from "../redux/features/profileSlice";
 import { hideLoader, showLoader } from "../redux/features/settingSlice";
 import { setSummary } from "../redux/features/summarySlice";
 import { setCanceledTask, setCompletedTask, setNewTask, setProgressTask } from "../redux/features/taskSlice";
@@ -160,7 +161,55 @@ export const UPDATE_TASK_STATUS_API = async (_id, status) => {
 
     store.dispatch(hideLoader());
     if (data.status) {
-      SuccessToast("Update Successful");
+      SuccessToast("Task Status Updated");
+      return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Profile Details
+export const PROFILE_DETAILS_API = async () => {
+  try {
+    const URL = `${BASE_URL}/get-user-profile`;
+    const Headers = { headers: { token: getToken() } };
+    store.dispatch(showLoader());
+
+    const { data } = await axios.get(URL, Headers);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      store.dispatch(setProfileDetails(data.data[0]));
+      return true;
+    }
+  } catch (error) {
+    if (error.response.data.success === false) {
+      store.dispatch(hideLoader());
+      ErrorToast(error.response.data.message);
+    }
+  }
+};
+
+// Profile Update
+export const PROFILE_UPDATE_API = async (photo, email, fullName) => {
+  try {
+    store.dispatch(showLoader());
+
+    const URL = `${BASE_URL}/user-profile-update`;
+    const postBody = { photo, email, fullName };
+    const userDetails = { photo, email, fullName };
+    const Headers = { headers: { token: getToken() } };
+
+    const { data } = await axios.put(URL, postBody, Headers);
+
+    store.dispatch(hideLoader());
+    if (data.status) {
+      SuccessToast("User Profile Updated Successful");
+      setUserDetails(userDetails);
       return true;
     }
   } catch (error) {
