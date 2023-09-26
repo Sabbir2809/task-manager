@@ -11,13 +11,18 @@ import { setCanceledTask, setCompletedTask, setNewTask, setProgressTask } from "
 // REGISTRATION API
 export const REGISTRATION_API = async (email, fullName, password) => {
   try {
-    const URL = `${BASE_URL}/user-registration`;
-    const postBody = { email, fullName, password };
+    // show loader
     store.dispatch(showLoader());
 
+    // request
+    const URL = `${BASE_URL}/user-registration`;
+    const postBody = { email, fullName, password };
     const { data } = await axios.post(URL, postBody);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       SuccessToast(data.message);
       return true;
@@ -33,13 +38,18 @@ export const REGISTRATION_API = async (email, fullName, password) => {
 // LOGIN API
 export const LOGIN_API = async (email, password) => {
   try {
-    const URL = `${BASE_URL}/user-login`;
-    const postBody = { email, password };
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
+    const URL = `${BASE_URL}/user-login`;
+    const postBody = { email, password };
     const { data } = await axios.post(URL, postBody);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       // set email, token in localStorage
       setToken(data.token);
@@ -58,14 +68,19 @@ export const LOGIN_API = async (email, password) => {
 // CREATE A NEW TASK API
 export const CREATE_NEW_TASK_API = async (title, description) => {
   try {
+    // show loader
+    store.dispatch(showLoader());
+
+    // api request
     const URL = `${BASE_URL}/create-task`;
     const postBody = { title, description, status: "New", email: getEmail() };
     const Headers = { headers: { token: getToken() } };
-    store.dispatch(showLoader());
-
     const { data } = await axios.post(URL, postBody, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       SuccessToast("Create New Task");
       return true;
@@ -81,13 +96,18 @@ export const CREATE_NEW_TASK_API = async (title, description) => {
 // Task List By Status
 export const TASK_LIST_BY_STATUS_API = async (taskStatus) => {
   try {
-    const URL = `${BASE_URL}/list-task-by-status/${taskStatus}`;
-    const Headers = { headers: { token: getToken() } };
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
+    const URL = `${BASE_URL}/list-task-by-status/${taskStatus}`;
+    const Headers = { headers: { token: getToken() } };
     const { data } = await axios.get(URL, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       if (taskStatus === "New") {
         store.dispatch(setNewTask(data.data));
@@ -110,13 +130,18 @@ export const TASK_LIST_BY_STATUS_API = async (taskStatus) => {
 // TaskStatusCount
 export const TASK_STATUS_COUNT_API = async () => {
   try {
-    const URL = `${BASE_URL}/task-status-count`;
-    const Headers = { headers: { token: getToken() } };
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
+    const URL = `${BASE_URL}/task-status-count`;
+    const Headers = { headers: { token: getToken() } };
     const { data } = await axios.get(URL, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       store.dispatch(setSummary(data.data));
     }
@@ -131,13 +156,18 @@ export const TASK_STATUS_COUNT_API = async () => {
 // Delete Task
 export const DELETE_TASK_API = async (_id) => {
   try {
-    const URL = `${BASE_URL}/delete-task/${_id}`;
-    const Headers = { headers: { token: getToken() } };
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
+    const URL = `${BASE_URL}/delete-task/${_id}`;
+    const Headers = { headers: { token: getToken() } };
     const { data } = await axios.delete(URL, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       SuccessToast("Deleted Successful");
       return true;
@@ -153,13 +183,18 @@ export const DELETE_TASK_API = async (_id) => {
 // Update Task Status
 export const UPDATE_TASK_STATUS_API = async (_id, status) => {
   try {
-    const URL = `${BASE_URL}/update-task-status/${_id}/${status}`;
-    const Headers = { headers: { token: getToken() } };
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
+    const URL = `${BASE_URL}/update-task-status/${_id}/${status}`;
+    const Headers = { headers: { token: getToken() } };
     const { data } = await axios.get(URL, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       SuccessToast("Task Status Updated");
       return true;
@@ -175,13 +210,18 @@ export const UPDATE_TASK_STATUS_API = async (_id, status) => {
 // Profile Details
 export const PROFILE_DETAILS_API = async () => {
   try {
-    const URL = `${BASE_URL}/get-user-profile`;
-    const Headers = { headers: { token: getToken() } };
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
+    const URL = `${BASE_URL}/get-user-profile`;
+    const Headers = { headers: { token: getToken() } };
     const { data } = await axios.get(URL, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       store.dispatch(setProfileDetails(data.data[0]));
       return true;
@@ -197,16 +237,20 @@ export const PROFILE_DETAILS_API = async () => {
 // Profile Update
 export const PROFILE_UPDATE_API = async (photo, email, fullName) => {
   try {
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
     const URL = `${BASE_URL}/user-profile-update`;
     const postBody = { photo, email, fullName };
     const userDetails = { photo, email, fullName };
     const Headers = { headers: { token: getToken() } };
-
     const { data } = await axios.put(URL, postBody, Headers);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       SuccessToast("User Profile Updated Successful");
       setUserDetails(userDetails);
@@ -223,12 +267,17 @@ export const PROFILE_UPDATE_API = async (photo, email, fullName) => {
 // Verify Recover Email (Step-1)
 export const VERIFY_RECOVER_EMAIL_API = async (email) => {
   try {
+    // show loader
     store.dispatch(showLoader());
-    const URL = `${BASE_URL}/verify-email/${email}`;
 
+    // api request
+    const URL = `${BASE_URL}/verify-email/${email}`;
     const { data } = await axios.get(URL);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       setEmail(email);
       SuccessToast(data.message);
@@ -245,13 +294,17 @@ export const VERIFY_RECOVER_EMAIL_API = async (email) => {
 // Verify Recover OTP (Step-2)
 export const VERIFY_RECOVER_OTP_API = async (email, OTP) => {
   try {
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
     const URL = `${BASE_URL}/verify-otp/${email}/${OTP}`;
-
     const { data } = await axios.get(URL);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       setOTP(OTP);
       SuccessToast(data.message);
@@ -268,14 +321,18 @@ export const VERIFY_RECOVER_OTP_API = async (email, OTP) => {
 // Recover Reset Password (Step-3)
 export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
   try {
+    // show loader
     store.dispatch(showLoader());
 
+    // api request
     const URL = `${BASE_URL}/reset-password`;
     const postBody = { email, otp: OTP, password };
-
     const { data } = await axios.post(URL, postBody);
 
+    // hide loader
     store.dispatch(hideLoader());
+
+    // true response
     if (data.status) {
       SuccessToast(data.message);
       return true;

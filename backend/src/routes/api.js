@@ -1,43 +1,28 @@
 // Dependencies
 const express = require("express");
 const router = express.Router();
-const {
-  registration,
-  login,
-  profileUpdate,
-  profileDetails,
-  verifyEmail,
-  verifyOTP,
-  resetPassword,
-} = require("../controllers/UsersController");
+const UsersController = require("../controllers/UsersController");
 const AuthVerifyMiddleware = require("../middleware/AuthVerifyMiddleware");
-const {
-  createTask,
-  updateTaskStatus,
-  deleteTask,
-  listTaskByStatus,
-  TaskStatusCount,
-} = require("../controllers/TasksController");
+const TasksController = require("../controllers/TasksController");
 
 // API End-Point:
 
 // :::::: user ::::::
-router.post("/user-registration", registration);
-router.post("/user-login", login);
-router.put("/user-profile-update", AuthVerifyMiddleware, profileUpdate);
-router.get("/get-user-profile", AuthVerifyMiddleware, profileDetails);
-
+router.post("/user-registration", UsersController.registration);
+router.post("/user-login", UsersController.login);
+router.put("/user-profile-update", AuthVerifyMiddleware, UsersController.profileUpdate);
+router.get("/get-user-profile", AuthVerifyMiddleware, UsersController.profileDetails);
 // :::::: password recover ::::::
-router.get("/verify-email/:email", verifyEmail);
-router.get("/verify-otp/:email/:otp", verifyOTP);
-router.post("/reset-password", resetPassword);
+router.get("/verify-email/:email", UsersController.verifyEmail);
+router.get("/verify-otp/:email/:otp", UsersController.verifyOTP);
+router.post("/reset-password", UsersController.resetPassword);
 
 // :::::: task ::::::
-router.post("/create-task", AuthVerifyMiddleware, createTask);
-router.get("/update-task-status/:id/:status", AuthVerifyMiddleware, updateTaskStatus);
-router.delete("/delete-task/:id", AuthVerifyMiddleware, deleteTask);
-router.get("/list-task-by-status/:status", AuthVerifyMiddleware, listTaskByStatus);
-router.get("/task-status-count", AuthVerifyMiddleware, TaskStatusCount);
+router.post("/create-task", AuthVerifyMiddleware, TasksController.createTask);
+router.get("/update-task-status/:id/:status", AuthVerifyMiddleware, TasksController.updateTaskStatus);
+router.delete("/delete-task/:id", AuthVerifyMiddleware, TasksController.deleteTask);
+router.get("/list-task-by-status/:status", AuthVerifyMiddleware, TasksController.listTaskByStatus);
+router.get("/task-status-count", AuthVerifyMiddleware, TasksController.TaskStatusCount);
 
 // Exports
 module.exports = router;
