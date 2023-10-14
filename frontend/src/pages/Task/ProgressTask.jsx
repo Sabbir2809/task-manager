@@ -2,30 +2,28 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { TASK_LIST_BY_STATUS_API } from "../api/API_REQUEST";
-import { deleteTask } from "../helpers/DeleteAlert";
-import { updateTaskStatus } from "../helpers/UpdateAlert";
+import { TASK_LIST_BY_STATUS_API } from "../../api/API_REQUEST";
+import { DeleteTask } from "../../helpers/DeleteAlert";
+import { UpdateTaskStatus } from "../../helpers/UpdateAlert";
 
-const NewTask = () => {
+const ProgressTask = () => {
   useEffect(() => {
-    TASK_LIST_BY_STATUS_API("New");
+    TASK_LIST_BY_STATUS_API("Progress");
   }, []);
 
-  const newList = useSelector((state) => state.task.newTask);
+  const progressList = useSelector((state) => state.task.progressTask);
 
   const deleteItem = async (_id) => {
-    const result = await deleteTask(_id);
+    const result = await DeleteTask(_id);
     if (result === true) {
-      TASK_LIST_BY_STATUS_API("New");
+      TASK_LIST_BY_STATUS_API("Progress");
     }
   };
 
   const updateItem = async (_id, status) => {
-    const result = await updateTaskStatus(_id, status);
+    const result = await UpdateTaskStatus(_id, status);
     if (result === true) {
-      TASK_LIST_BY_STATUS_API("New");
-    } else {
-      alert("Not Updated");
+      TASK_LIST_BY_STATUS_API("Progress");
     }
   };
 
@@ -33,7 +31,7 @@ const NewTask = () => {
     <Container fluid={true} className="content-body">
       <div className="row p-0 m-0">
         <div className="col-12 col-md-6 col-lg-8 px-3">
-          <h5>New Task</h5>
+          <h5>Task In Progress </h5>
         </div>
         <div className="col-12 float-end col-md-6 col-lg-4 px-2">
           <div className="row">
@@ -47,8 +45,8 @@ const NewTask = () => {
         </div>
       </div>
       <div className="row p-0 m-0">
-        {newList &&
-          newList.map((item) => (
+        {progressList &&
+          progressList.map((item) => (
             <div key={item._id} className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
               <div className="card h-100">
                 <div className="card-body">
@@ -64,7 +62,7 @@ const NewTask = () => {
                     <a onClick={() => deleteItem(item._id)} className="icon-nav text-danger mx-1">
                       <AiOutlineDelete />
                     </a>
-                    <a className="badge float-end bg-info">{item.status}</a>
+                    <a className="badge float-end bg-primary">{item.status}</a>
                   </p>
                 </div>
               </div>
@@ -75,4 +73,4 @@ const NewTask = () => {
   );
 };
 
-export default NewTask;
+export default ProgressTask;

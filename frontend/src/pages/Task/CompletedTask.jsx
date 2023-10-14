@@ -2,28 +2,28 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { TASK_LIST_BY_STATUS_API } from "../api/API_REQUEST";
-import { deleteTask } from "../helpers/DeleteAlert";
-import { updateTaskStatus } from "../helpers/UpdateAlert";
+import { TASK_LIST_BY_STATUS_API } from "../../api/API_REQUEST";
+import { DeleteTask } from "../../helpers/DeleteAlert";
+import { UpdateTaskStatus } from "../../helpers/UpdateAlert";
 
-const CanceledTask = () => {
+const CompletedTask = () => {
   useEffect(() => {
-    TASK_LIST_BY_STATUS_API("Canceled");
+    TASK_LIST_BY_STATUS_API("Completed");
   }, []);
 
-  const canceledList = useSelector((state) => state.task.canceledTask);
+  const completedList = useSelector((state) => state.task.completedTask);
 
   const deleteItem = async (_id) => {
-    const result = await deleteTask(_id);
+    const result = await DeleteTask(_id);
     if (result === true) {
-      TASK_LIST_BY_STATUS_API("Canceled");
+      TASK_LIST_BY_STATUS_API("Completed");
     }
   };
 
   const updateItem = async (_id, status) => {
-    const result = await updateTaskStatus(_id, status);
+    const result = await UpdateTaskStatus(_id, status);
     if (result === true) {
-      TASK_LIST_BY_STATUS_API("Canceled");
+      TASK_LIST_BY_STATUS_API("Completed");
     }
   };
 
@@ -31,7 +31,7 @@ const CanceledTask = () => {
     <Container fluid={true} className="content-body">
       <div className="row p-0 m-0">
         <div className="col-12 col-md-6 col-lg-8 px-3">
-          <h5>Canceled Task</h5>
+          <h5>Completed Task</h5>
         </div>
         <div className="col-12 float-end col-md-6 col-lg-4 px-2">
           <div className="row">
@@ -45,8 +45,8 @@ const CanceledTask = () => {
         </div>
       </div>
       <div className="row p-0 m-0">
-        {canceledList &&
-          canceledList.map((item) => (
+        {completedList &&
+          completedList.map((item) => (
             <div key={item._id} className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
               <div className="card h-100">
                 <div className="card-body">
@@ -62,7 +62,7 @@ const CanceledTask = () => {
                     <a onClick={() => deleteItem(item._id)} className="icon-nav text-danger mx-1">
                       <AiOutlineDelete />
                     </a>
-                    <a className="badge float-end bg-danger">{item.status}</a>
+                    <a className="badge float-end bg-success">{item.status}</a>
                   </p>
                 </div>
               </div>
@@ -73,4 +73,4 @@ const CanceledTask = () => {
   );
 };
 
-export default CanceledTask;
+export default CompletedTask;

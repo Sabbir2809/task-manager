@@ -25,7 +25,7 @@ exports.updateTaskStatus = async (req, res) => {
     const status = req.params.status;
     const taskBody = { status: status };
 
-    const task = await TaskModel.updateOne(query, taskBody);
+    const task = await TaskModel.updateOne(query, taskBody, { upsert: true });
 
     res.status(200).json({
       status: true,

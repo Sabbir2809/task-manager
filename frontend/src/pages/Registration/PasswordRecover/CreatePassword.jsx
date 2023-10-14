@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { RECOVER_RESET_PASSWORD_API } from "../../api/API_REQUEST";
-import { ErrorToast, IsEmpty } from "../../helpers/FormHelper";
-import { getEmail, getOTP } from "../../helpers/SessionHelper";
+import { RECOVER_RESET_PASSWORD_API } from "../../../api/API_REQUEST";
+import { ErrorToast, IsEmpty } from "../../../helpers/FormHelper";
+import { getEmail, getOTP } from "../../../helpers/SessionHelper";
 
 const CreatePassword = () => {
   const navigate = useNavigate();

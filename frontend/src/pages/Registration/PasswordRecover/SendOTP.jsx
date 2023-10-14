@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { VERIFY_RECOVER_EMAIL_API } from "../../api/API_REQUEST";
-import { ErrorToast, IsEmail } from "../../helpers/FormHelper";
+import { VERIFY_RECOVER_EMAIL_API } from "../../../api/API_REQUEST";
+import { ErrorToast, IsEmail } from "../../../helpers/FormHelper";
 
 const SendOTP = () => {
   const navigate = useNavigate();

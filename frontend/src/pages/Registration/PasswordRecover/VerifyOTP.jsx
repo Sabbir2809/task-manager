@@ -1,9 +1,9 @@
 import { useState } from "react";
 import ReactCodeInput from "react-code-input";
 import { useNavigate } from "react-router-dom";
-import { VERIFY_RECOVER_OTP_API } from "../../api/API_REQUEST";
-import { ErrorToast } from "../../helpers/FormHelper";
-import { getEmail } from "../../helpers/SessionHelper";
+import { VERIFY_RECOVER_OTP_API } from "../../../api/API_REQUEST";
+import { ErrorToast } from "../../../helpers/FormHelper";
+import { getEmail } from "../../../helpers/SessionHelper";
 
 const VerifyOTP = () => {
   const [OTP, setOTP] = useState("");

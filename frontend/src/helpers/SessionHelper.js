@@ -23,17 +23,6 @@ class SessionHelper {
   getUserDetails() {
     return JSON.parse(localStorage.getItem("userDetails"));
   }
-  setGuestCart(productId) {
-    localStorage.setItem("guestCartItem", productId);
-  }
-  getGuestCart() {
-    return localStorage.getItem("guestCartItem");
-  }
-  convertPriceStringToNumber(getStringPrice) {
-    const stringPrice = getStringPrice.cartList.price;
-    const price = parseInt(stringPrice);
-    return price;
-  }
   removeSession() {
     localStorage.clear();
     window.location.href = "login";

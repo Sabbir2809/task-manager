@@ -2,28 +2,30 @@ import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { AiOutlineCalendar, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { TASK_LIST_BY_STATUS_API } from "../api/API_REQUEST";
-import { deleteTask } from "../helpers/DeleteAlert";
-import { updateTaskStatus } from "../helpers/UpdateAlert";
+import { TASK_LIST_BY_STATUS_API } from "../../api/API_REQUEST";
+import { DeleteTask } from "../../helpers/DeleteAlert";
+import { UpdateTaskStatus } from "../../helpers/UpdateAlert";
 
-const CompletedTask = () => {
+const NewTask = () => {
   useEffect(() => {
-    TASK_LIST_BY_STATUS_API("Completed");
+    TASK_LIST_BY_STATUS_API("New");
   }, []);
 
-  const completedList = useSelector((state) => state.task.completedTask);
+  const newList = useSelector((state) => state.task.newTask);
 
   const deleteItem = async (_id) => {
-    const result = await deleteTask(_id);
+    const result = await DeleteTask(_id);
     if (result === true) {
-      TASK_LIST_BY_STATUS_API("Completed");
+      TASK_LIST_BY_STATUS_API("New");
     }
   };
 
   const updateItem = async (_id, status) => {
-    const result = await updateTaskStatus(_id, status);
+    const result = await UpdateTaskStatus(_id, status);
     if (result === true) {
-      TASK_LIST_BY_STATUS_API("Completed");
+      TASK_LIST_BY_STATUS_API("New");
+    } else {
+      alert("Not Updated");
     }
   };
 
@@ -31,7 +33,7 @@ const CompletedTask = () => {
     <Container fluid={true} className="content-body">
       <div className="row p-0 m-0">
         <div className="col-12 col-md-6 col-lg-8 px-3">
-          <h5>Completed Task</h5>
+          <h5>New Task</h5>
         </div>
         <div className="col-12 float-end col-md-6 col-lg-4 px-2">
           <div className="row">
@@ -45,8 +47,8 @@ const CompletedTask = () => {
         </div>
       </div>
       <div className="row p-0 m-0">
-        {completedList &&
-          completedList.map((item) => (
+        {newList &&
+          newList.map((item) => (
             <div key={item._id} className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
               <div className="card h-100">
                 <div className="card-body">
@@ -62,7 +64,7 @@ const CompletedTask = () => {
                     <a onClick={() => deleteItem(item._id)} className="icon-nav text-danger mx-1">
                       <AiOutlineDelete />
                     </a>
-                    <a className="badge float-end bg-success">{item.status}</a>
+                    <a className="badge float-end bg-info">{item.status}</a>
                   </p>
                 </div>
               </div>
@@ -73,4 +75,4 @@ const CompletedTask = () => {
   );
 };
 
-export default CompletedTask;
+export default NewTask;

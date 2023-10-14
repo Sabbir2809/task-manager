@@ -17,7 +17,7 @@ app.use(cors());
 app.use(helmet());
 app.use(hpp());
 app.use(mongoSanitize());
-const limiter = rateLimit({ windowMs: 1 * 60 * 1000, max: 30 });
+const limiter = rateLimit({ windowMs: 1 * 60 * 1000, max: 60 });
 app.use(limiter);
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));

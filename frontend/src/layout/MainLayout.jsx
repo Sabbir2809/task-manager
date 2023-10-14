@@ -14,7 +14,7 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
 import { getUserDetails, removeSession } from "../helpers/SessionHelper";
 
-const Layout = (props) => {
+const MainLayout = ({ children }) => {
   let contentRef,
     sideNavRef = useRef();
 
@@ -41,6 +41,7 @@ const Layout = (props) => {
 
   return (
     <>
+      {/* Navbar */}
       <Navbar className="fixed-top px-0 shadow-sm ">
         <Container fluid={true}>
           <Navbar.Brand>
@@ -74,7 +75,7 @@ const Layout = (props) => {
           </div>
         </Container>
       </Navbar>
-
+      {/* Sidebar */}
       <div
         ref={(div) => {
           sideNavRef = div;
@@ -134,12 +135,12 @@ const Layout = (props) => {
           <span className="side-bar-item-caption">Canceled</span>
         </NavLink>
       </div>
-
+      {/* Content */}
       <div ref={(div) => (contentRef = div)} className="content">
-        {props.children}
+        {children}
       </div>
     </>
   );
 };
 
-export default Layout;
+export default MainLayout;

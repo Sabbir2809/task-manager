@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PROFILE_DETAILS_API, PROFILE_UPDATE_API } from "../api/API_REQUEST";
-import { ErrorToast, IsEmail, IsEmpty, getBase64 } from "../helpers/FormHelper";
+import { PROFILE_DETAILS_API, PROFILE_UPDATE_API } from "../../api/API_REQUEST";
+import { ErrorToast, IsEmail, IsEmpty, getBase64 } from "../../helpers/FormHelper";
 
 const Profile = () => {
   const navigate = useNavigate();

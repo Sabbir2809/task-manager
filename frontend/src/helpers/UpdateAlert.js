@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import { UPDATE_TASK_STATUS_API } from "../api/API_REQUEST";
 
-export function updateTaskStatus(_id, status) {
+export function UpdateTaskStatus(_id, status) {
   return Swal.fire({
     title: "Change Status",
     input: "select",

@@ -1,4 +1,3 @@
-const BASE_URL = `https://task-manager-jcwd.onrender.com/api`;
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helpers/FormHelper";
 import { getEmail, getToken, setEmail, setOTP, setToken, setUserDetails } from "../helpers/SessionHelper";
@@ -7,6 +6,8 @@ import { setProfileDetails } from "../redux/features/profileSlice";
 import { hideLoader, showLoader } from "../redux/features/settingSlice";
 import { setSummary } from "../redux/features/summarySlice";
 import { setCanceledTask, setCompletedTask, setNewTask, setProgressTask } from "../redux/features/taskSlice";
+const BASE_URL = `https://task-manager-jcwd.onrender.com/api`;
+const Headers = { headers: { token: getToken() } };
 
 // REGISTRATION API
 export const REGISTRATION_API = async (email, fullName, password) => {
@@ -15,9 +16,8 @@ export const REGISTRATION_API = async (email, fullName, password) => {
     store.dispatch(showLoader());
 
     // request
-    const URL = `${BASE_URL}/user-registration`;
     const postBody = { email, fullName, password };
-    const { data } = await axios.post(URL, postBody);
+    const { data } = await axios.post(`${BASE_URL}/user-registration`, postBody);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -28,10 +28,8 @@ export const REGISTRATION_API = async (email, fullName, password) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -42,9 +40,8 @@ export const LOGIN_API = async (email, password) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/user-login`;
     const postBody = { email, password };
-    const { data } = await axios.post(URL, postBody);
+    const { data } = await axios.post(`${BASE_URL}/user-login`, postBody);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -58,10 +55,8 @@ export const LOGIN_API = async (email, password) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -72,10 +67,8 @@ export const CREATE_NEW_TASK_API = async (title, description) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/create-task`;
     const postBody = { title, description, status: "New", email: getEmail() };
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.post(URL, postBody, Headers);
+    const { data } = await axios.post(`${BASE_URL}/create-task`, postBody, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -86,10 +79,8 @@ export const CREATE_NEW_TASK_API = async (title, description) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -100,9 +91,7 @@ export const TASK_LIST_BY_STATUS_API = async (taskStatus) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/list-task-by-status/${taskStatus}`;
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.get(URL, Headers);
+    const { data } = await axios.get(`${BASE_URL}/list-task-by-status/${taskStatus}`, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -120,10 +109,8 @@ export const TASK_LIST_BY_STATUS_API = async (taskStatus) => {
       }
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -134,9 +121,7 @@ export const TASK_STATUS_COUNT_API = async () => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/task-status-count`;
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.get(URL, Headers);
+    const { data } = await axios.get(`${BASE_URL}/task-status-count`, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -146,10 +131,8 @@ export const TASK_STATUS_COUNT_API = async () => {
       store.dispatch(setSummary(data.data));
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -160,9 +143,7 @@ export const DELETE_TASK_API = async (_id) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/delete-task/${_id}`;
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.delete(URL, Headers);
+    const { data } = await axios.delete(`${BASE_URL}/delete-task/${_id}`, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -173,10 +154,8 @@ export const DELETE_TASK_API = async (_id) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -187,9 +166,7 @@ export const UPDATE_TASK_STATUS_API = async (_id, status) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/update-task-status/${_id}/${status}`;
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.get(URL, Headers);
+    const { data } = await axios.get(`${BASE_URL}/update-task-status/${_id}/${status}`, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -200,10 +177,8 @@ export const UPDATE_TASK_STATUS_API = async (_id, status) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -214,9 +189,7 @@ export const PROFILE_DETAILS_API = async () => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/get-user-profile`;
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.get(URL, Headers);
+    const { data } = await axios.get(`${BASE_URL}/get-user-profile`, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -227,10 +200,8 @@ export const PROFILE_DETAILS_API = async () => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -241,11 +212,10 @@ export const PROFILE_UPDATE_API = async (photo, email, fullName) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/user-profile-update`;
     const postBody = { photo, email, fullName };
     const userDetails = { photo, email, fullName };
-    const Headers = { headers: { token: getToken() } };
-    const { data } = await axios.put(URL, postBody, Headers);
+
+    const { data } = await axios.put(`${BASE_URL}/user-profile-update`, postBody, Headers);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -257,10 +227,8 @@ export const PROFILE_UPDATE_API = async (photo, email, fullName) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -271,8 +239,7 @@ export const VERIFY_RECOVER_EMAIL_API = async (email) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/verify-email/${email}`;
-    const { data } = await axios.get(URL);
+    const { data } = await axios.get(`${BASE_URL}/verify-email/${email}`);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -284,10 +251,8 @@ export const VERIFY_RECOVER_EMAIL_API = async (email) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -298,8 +263,7 @@ export const VERIFY_RECOVER_OTP_API = async (email, OTP) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/verify-otp/${email}/${OTP}`;
-    const { data } = await axios.get(URL);
+    const { data } = await axios.get(`${BASE_URL}/verify-otp/${email}/${OTP}`);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -311,10 +275,8 @@ export const VERIFY_RECOVER_OTP_API = async (email, OTP) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };
 
@@ -325,9 +287,8 @@ export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
     store.dispatch(showLoader());
 
     // api request
-    const URL = `${BASE_URL}/reset-password`;
     const postBody = { email, otp: OTP, password };
-    const { data } = await axios.post(URL, postBody);
+    const { data } = await axios.post(`${BASE_URL}/reset-password`, postBody);
 
     // hide loader
     store.dispatch(hideLoader());
@@ -338,9 +299,7 @@ export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
       return true;
     }
   } catch (error) {
-    if (error.response.data.success === false) {
-      store.dispatch(hideLoader());
-      ErrorToast(error.response.data.message);
-    }
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
   }
 };

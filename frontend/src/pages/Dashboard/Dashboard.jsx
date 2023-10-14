@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { TASK_STATUS_COUNT_API } from "../api/API_REQUEST";
+import { TASK_STATUS_COUNT_API } from "../../api/API_REQUEST";
 
 const Dashboard = () => {
   useEffect(() => {

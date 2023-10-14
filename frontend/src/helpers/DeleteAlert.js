@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import { DELETE_TASK_API } from "../api/API_REQUEST";
 
-export function deleteTask(_id) {
+export function DeleteTask(_id) {
   return Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
