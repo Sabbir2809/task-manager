@@ -305,7 +305,7 @@ export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
   }
 };
 
-// TaskStatusCount
+// Search Task
 export const FIND_TASK_API = async (searchKeyword) => {
   try {
     // show loader
