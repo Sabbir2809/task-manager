@@ -126,33 +126,3 @@ exports.findTask = async (req, res) => {
     res.status(500).json({ status: false, error: error.message });
   }
 };
-
-// const searchKeyword = req.params.searchKeyword;
-//     const email = req.headers.email;
-
-//     let data;
-
-//     if (searchKeyword !== 0) {
-//       const searchRegex = { $regex: searchKeyword, $options: "i" };
-//       const searchQuery = {
-//         $or: [
-//           { title: searchRegex },
-//           { description: searchRegex },
-//           { status: searchRegex },
-//           { email: searchRegex },
-//         ],
-//       };
-//       data = await TaskModel.aggregate([
-//         { $match: { email: email } },
-//         { $match: searchQuery }
-//       ]);
-//     } else {
-//       data = await TaskModel.aggregate([
-//         { $match: { email: email } },
-//         {
-//           $facet: {
-//             total: [{ $count: "count" }],
-//           },
-//         },
-//       ]);
-//     }
