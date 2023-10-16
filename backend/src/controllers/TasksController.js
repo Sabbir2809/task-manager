@@ -17,7 +17,7 @@ exports.createTask = async (req, res) => {
   }
 };
 
-// Create Task
+// Update Task Status
 exports.updateTaskStatus = async (req, res) => {
   try {
     const id = req.params.id;
@@ -104,3 +104,55 @@ exports.TaskStatusCount = async (req, res) => {
     res.status(500).json({ status: false, error: error.message });
   }
 };
+
+// Search Task
+exports.findTask = async (req, res) => {
+  try {
+    const searchKeyword = req.params.searchKeyword;
+    const email = req.headers.email;
+
+    const searchRegex = { $regex: searchKeyword, $options: "i" };
+    const searchQuery = {
+      $or: [{ title: searchRegex }, { description: searchRegex }, { status: searchRegex }],
+    };
+
+    let data = await TaskModel.aggregate([{ $match: searchQuery }, { $match: { email: email } }]);
+
+    res.status(200).json({
+      status: true,
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, error: error.message });
+  }
+};
+
+// const searchKeyword = req.params.searchKeyword;
+//     const email = req.headers.email;
+
+//     let data;
+
+//     if (searchKeyword !== 0) {
+//       const searchRegex = { $regex: searchKeyword, $options: "i" };
+//       const searchQuery = {
+//         $or: [
+//           { title: searchRegex },
+//           { description: searchRegex },
+//           { status: searchRegex },
+//           { email: searchRegex },
+//         ],
+//       };
+//       data = await TaskModel.aggregate([
+//         { $match: { email: email } },
+//         { $match: searchQuery }
+//       ]);
+//     } else {
+//       data = await TaskModel.aggregate([
+//         { $match: { email: email } },
+//         {
+//           $facet: {
+//             total: [{ $count: "count" }],
+//           },
+//         },
+//       ]);
+//     }

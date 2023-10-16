@@ -23,6 +23,7 @@ router.get("/update-task-status/:id/:status", AuthVerifyMiddleware, TasksControl
 router.delete("/delete-task/:id", AuthVerifyMiddleware, TasksController.deleteTask);
 router.get("/list-task-by-status/:status", AuthVerifyMiddleware, TasksController.listTaskByStatus);
 router.get("/task-status-count", AuthVerifyMiddleware, TasksController.TaskStatusCount);
+router.get("/find-task/:searchKeyword", AuthVerifyMiddleware, TasksController.findTask);
 
 // Exports
 module.exports = router;

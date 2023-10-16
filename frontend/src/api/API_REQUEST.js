@@ -6,6 +6,7 @@ import { setProfileDetails } from "../redux/features/profileSlice";
 import { hideLoader, showLoader } from "../redux/features/settingSlice";
 import { setSummary } from "../redux/features/summarySlice";
 import { setCanceledTask, setCompletedTask, setNewTask, setProgressTask } from "../redux/features/taskSlice";
+
 const BASE_URL = `https://task-manager-jcwd.onrender.com/api`;
 const Headers = { headers: { token: getToken() } };
 
@@ -297,6 +298,31 @@ export const RECOVER_RESET_PASSWORD_API = async (email, OTP, password) => {
     if (data.status) {
       SuccessToast(data.message);
       return true;
+    }
+  } catch (error) {
+    store.dispatch(hideLoader());
+    ErrorToast(error.response.data.message);
+  }
+};
+
+// TaskStatusCount
+export const FIND_TASK_API = async (searchKeyword) => {
+  try {
+    // show loader
+    store.dispatch(showLoader());
+
+    // api request
+    const { data } = await axios.get(`${BASE_URL}/find-task/${searchKeyword}`, Headers);
+
+    // hide loader
+    store.dispatch(hideLoader());
+
+    // true response
+    if (data.status) {
+      store.dispatch(setNewTask(data.data));
+      store.dispatch(setProgressTask(data.data));
+      store.dispatch(setCanceledTask(data.data));
+      store.dispatch(setCompletedTask(data.data));
     }
   } catch (error) {
     store.dispatch(hideLoader());

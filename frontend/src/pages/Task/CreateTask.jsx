@@ -9,6 +9,7 @@ const CreateTask = () => {
   let titleRef,
     descriptionRef = useRef();
 
+  // handle new task
   const handleNewTask = async () => {
     const title = titleRef.value;
     const description = descriptionRef.value;

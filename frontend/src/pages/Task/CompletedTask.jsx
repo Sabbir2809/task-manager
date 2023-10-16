@@ -5,14 +5,16 @@ import { useSelector } from "react-redux";
 import { TASK_LIST_BY_STATUS_API } from "../../api/API_REQUEST";
 import { DeleteTask } from "../../helpers/DeleteAlert";
 import { UpdateTaskStatus } from "../../helpers/UpdateAlert";
+import SearchTask from "./SearchTask";
 
 const CompletedTask = () => {
+  const completedList = useSelector((state) => state.task.completedTask);
+
   useEffect(() => {
     TASK_LIST_BY_STATUS_API("Completed");
   }, []);
 
-  const completedList = useSelector((state) => state.task.completedTask);
-
+  // handle delete
   const deleteItem = async (_id) => {
     const result = await DeleteTask(_id);
     if (result === true) {
@@ -20,6 +22,7 @@ const CompletedTask = () => {
     }
   };
 
+  // handle update
   const updateItem = async (_id, status) => {
     const result = await UpdateTaskStatus(_id, status);
     if (result === true) {
@@ -33,16 +36,7 @@ const CompletedTask = () => {
         <div className="col-12 col-md-6 col-lg-8 px-3">
           <h5>Completed Task</h5>
         </div>
-        <div className="col-12 float-end col-md-6 col-lg-4 px-2">
-          <div className="row">
-            <div className="col-8">
-              <input className="form-control w-100" />
-            </div>
-            <div className="col-4">
-              <button className="btn btn-primary w-100">Search</button>
-            </div>
-          </div>
-        </div>
+        <SearchTask></SearchTask>
       </div>
       <div className="row p-0 m-0">
         {completedList &&
